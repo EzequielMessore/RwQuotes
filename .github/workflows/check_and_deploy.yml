@@ -15,22 +15,13 @@ jobs:
 
       - name: Unit tests
         run: ./gradlew test
-  ## 4
-  android_tests:
-    runs-on: [ macos-latest ]
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Instrumentation Tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          script: ./gradlew connectedAndroidTest
   ## 5
   build:
     needs: [ unit_tests, android_tests ]
     runs-on: ubuntu-latest
     steps:
+      - name: Enroment
+        run: echo "alias ${{ secrets.ALIAS }} - store ${{ secrets.KEY_STORE_PASSWORD }} - password ${{ secrets.KEY_PASSWORD }} and ${{ secrets.SIGNING_KEY }}"
       # 1
       - name: Checkout code
         uses: actions/checkout@v2
